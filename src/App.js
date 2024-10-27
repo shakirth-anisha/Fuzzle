@@ -32,8 +32,8 @@ useEffect(() => {
 	playerRight_img.src = playerRight;
 	playerLeft_img.src = playerLeft;
 
-	const velocity = 5;
-	const battle_rate = 1;
+	const velocity = 2;
+	const battle_rate = 0.05;
 
 	const c = canvas.getContext('2d');
 	if (c) {

@@ -13,9 +13,9 @@ import { Sprite, Boundary } from './classes'
 import { FadeInOut, startAnimation} from './BattleStart';
 
 function App() {
-	FadeInOut('battle_ani', () => {
-		console.log("lmao no");
-	})
+	// FadeInOut('battle_ani', () => {
+	// 	console.log("lmao no");
+	// })
 useEffect(() => {
     const canvas = document.querySelector('canvas');
     const basic_img = new Image();

@@ -25,16 +25,6 @@ const attacks_available = [
 
 
 function attacks() {
-    let fireball_count = 0;
-
-    const disableAttackOptions = () => {
-        document.getElementById("attack_options").style.pointerEvents = "none";
-    };
-
-    const enableAttackOptions = () => {
-        document.getElementById("attack_options").style.pointerEvents = "all";
-    };
-
     document.getElementById("attack_1").onclick = () => {
         attack({
             attacker: document.getElementById("Ember"),
@@ -43,12 +33,11 @@ function attacks() {
             recipient: document.getElementById("Dragon"),
             recipientHealth: document.getElementById("health_2")
         });
-        disableAttackOptions();
     };
 
     document.getElementById("attack_2").onclick = () => {
-        if (fireball_count % 2 === 0) { // Allow fireball every other attack
-            document.getElementById("attack_2").style.opacity = "1"; // Reset opacity
+            document.getElementById("attack_2").style.pointerEvents = "all";
+            document.getElementById("attack_2").style.opacity = "1";
             attack({
                 attacker: document.getElementById("Ember"),
                 attackerHealth: document.getElementById("health_1"),
@@ -56,11 +45,6 @@ function attacks() {
                 recipient: document.getElementById("Dragon"),
                 recipientHealth: document.getElementById("health_2")
             });
-            disableAttackOptions();
-        } else {
-            document.getElementById("attack_2").style.opacity = "0.5"; // Indicate it's not usable
-        }
-        fireball_count++;
     };
 
     document.getElementById("attack_3").onclick = () => {
@@ -71,9 +55,7 @@ function attacks() {
             recipient: document.getElementById("Dragon"),
             recipientHealth: document.getElementById("health_2")
         });
-        disableAttackOptions();
-    };
-
+    }
     document.getElementById("attack_4").onclick = () => {
         document.getElementById("attack_4").style.pointerEvents = "none";
         document.getElementById("attack_4").style.backgroundColor = "#000";
@@ -84,15 +66,9 @@ function attacks() {
             recipient: document.getElementById("Dragon"),
             recipientHealth: document.getElementById("health_2")
         });
-        disableAttackOptions();
     };
-
-    // Reset attack options after some delay
-    const resetAttackOptions = () => {
-        enableAttackOptions();
-    };
-
 }
+
 function attack({attacker, attackerHealth, attack, recipient, recipientHealth, isdone = false}) {
     let recipient_actual = recipient;
     switch (attack.name) {

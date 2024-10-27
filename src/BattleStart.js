@@ -1,6 +1,7 @@
+import {attacks} from './attacks'
 let continueAnimation = true; 
 
-function FadeInOut(element, fun, times = 3) {
+function FadeInOut(element, fun, times = 1) {
     const cycleDelay = 20;        
     const fadeTime = 1000;        
     const displayTime = 500;      
@@ -33,6 +34,8 @@ function FadeInOut(element, fun, times = 3) {
             setTimeout(() => {
                 if (count === 1){
                     document.getElementById("battle_img_html").style.opacity = 1;
+                    document.getElementById("attack_options").style.pointerEvents = "all";
+                    attacks();
                 }
                 el.style.opacity = 0; //fading out
 
@@ -43,7 +46,7 @@ function FadeInOut(element, fun, times = 3) {
             }, displayTime); //before fading out
         }, cycleDelay); //before starting to fade in
         console.log("fades away");
-        fun(1);
+        fun();
     }
 
     fadeCycle(times); // Start the fade cycle

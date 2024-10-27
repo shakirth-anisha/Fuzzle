@@ -13,6 +13,9 @@ import { Sprite, Boundary } from './classes'
 import { FadeInOut, startAnimation} from './BattleStart';
 
 function App() {
+	FadeInOut('battle_ani', () => {
+		console.log("lmao no");
+	})
 useEffect(() => {
     const canvas = document.querySelector('canvas');
     const basic_img = new Image();
@@ -30,7 +33,7 @@ useEffect(() => {
 	playerLeft_img.src = playerLeft;
 
 	const velocity = 5;
-	const battle_rate = 0.01;
+	const battle_rate = 1;
 
 	const c = canvas.getContext('2d');
 	if (c) {
@@ -209,7 +212,7 @@ useEffect(() => {
 						console.log("lmao no");
 						player_animate();						
 						// Start new animation loop with battle sprites
-					});
+					})
 				}
 			}
 		}

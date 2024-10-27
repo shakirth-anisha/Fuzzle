@@ -29,45 +29,55 @@
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="battle_img_html" style="opacity: 1;" class="battle_img_html">
+        <div id="battle_img_html" style="opacity: 0;" class="battle_img_html">
+            <div id="battle_dialog"  class="battle_dialog"></div>
+            <div id="health_bar_1" class="health_bar_bg" style="top: 540px; left: 960px;">
+                <h3>Ember</h3>
+                <div id="health_bar" class="health_bar" style="background-color: #ccc;"></div>
+                <div id="health_1" class="health_bar" style="width: 668px;"></div>
+            </div>
+            <div id="health_bar_2" class="health_bar_bg" style="top: 50px; left: 50px;">
+                <h3>Dragon</h3>
+                <div id="health_bar" class="health_bar" style="background-color: #ccc;"></div>
+                <div id="health_2" class="health_bar" style="width: 668px;"></div>
+            </div>
             <div id="attack_tab" class="attack_tab">
-                <div id="attack_options" class="attack_options">
-                    <button id="attack_1" class="attack_op">Attack 1</button>
-                    <button id="attack_2" class="attack_op">Attack 2</button>
-                    <!-- <button id="attack_3" class="attack_op">Attack 3</button>
-                    <button id="attack_4" class="attack_op">Attack 4</button> -->
-                </div>
                 <div id="attack_info" class="attack_info">
-                    <h1>Attack Info</h1>
+                    <h1 style="font-size: 25px;">
+                        AttackInfo
+                    </h1>
+                </div>
+                <div id="attack_options" class="attack_options">
+                    <button id="attack_1" class="attack_op">Tackle</button>
+                    <button id="attack_2" class="attack_op">Fireball</button>
+                    <button id="attack_3" class="attack_op">Heal</button>
+                    <button id="attack_4" class="attack_op">Gamble</button>
                 </div>
             </div>
-            <img id="dragon" class="onbattle" style="opacity: 1; top:170px; left:1340px" src="./enemy_dino1.png"> 
-            <img id="ember" class="onbattle" style="opacity: 1; top:370px; left:365px" src="./Ember/ember1.png"> 
-            <img id="fire" class="onbattle" style="opacity: 1;" src="./Fire/fire1.png"> 
+            <img id="Ember" class="onbattle" style="opacity: 1; top:360px; left:400px" src="./Ember/ember1.png"> 
+            <img id="Dragon" class="onbattle" style="opacity: 1; top:170px; left:1340px" src="./enemy_dino1.png"> 
+            <img id="fireball" class="onbattle" style="opacity: 0;" src="./Fire/fire1.png"> 
+            <img id="heal_img" class="onbattle" style="opacity: 0;" src="./Fire/heal.png" style="top:360px; left:400px"> 
             <img id="battle" class="battle_img_html" style="opacity: 1;" src="./battleBackground.png"> 
         </div>
         <div id="battle_ani" class="battle_ani"> </div>
         <div id="root" class="canvas"></div>
 
-        <script>
+        <script>                     
             //var dragon = ["Dragon/dragon1.png", "Dragon/dragon2.png", "Dragon/dragon3.png", "Dragon/dragon4.png"];
-            let dragon = [], ember = [], fire = []
+            let dragon = [], ember = [];
             for (i=1; i<=4; i++){
                 dragon.push("Dragon/enemy_dino"+i+".png")
                 ember.push("Ember/player_ember"+i+".png")
-                fire.push("Fire/fire"+i+".png")
             }
-            console.log(dragon);
-            //const ember = ["Ember/player_ember1.png", "Ember/player_ember2.png", "Ember/player_ember3.png", "Ember/player_ember4.png"];
-            //const fire = ["Fire/fire1.png", "Fire/fire2.png", "Fire/fire3.png", "Fire/fire4.png"];
 
             let index = 0
         
             setInterval(() => {
                 index = (index + 1) % dragon.length;
-              document.getElementById("dragon").src = dragon[index];
-              document.getElementById("ember").src = ember[index];
-              document.getElementById("fire").src = fire[index];
+              document.getElementById("Dragon").src = dragon[index];
+              document.getElementById("Ember").src = ember[index];
+              //document.getElementById("fire").src = fire[index];
             }, 100);
           </script>
     </body>

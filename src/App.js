@@ -13,9 +13,9 @@ import { Sprite, Boundary } from './classes'
 import { FadeInOut, startAnimation} from './BattleStart';
 
 function App() {
-	// FadeInOut('battle_ani', () => {
-	// 	console.log("lmao no");
-	// })
+	FadeInOut('battle_ani', () => {
+		console.log("lmao no");
+	})
 useEffect(() => {
     const canvas = document.querySelector('canvas');
     const basic_img = new Image();
@@ -32,7 +32,7 @@ useEffect(() => {
 	playerRight_img.src = playerRight;
 	playerLeft_img.src = playerLeft;
 
-	const velocity = 2;
+	const velocity = 5;
 	const battle_rate = 0.05;
 
 	const c = canvas.getContext('2d');

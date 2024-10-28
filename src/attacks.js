@@ -36,15 +36,13 @@ function attacks() {
     };
 
     document.getElementById("attack_2").onclick = () => {
-            document.getElementById("attack_2").style.pointerEvents = "all";
-            document.getElementById("attack_2").style.opacity = "1";
-            attack({
-                attacker: document.getElementById("Ember"),
-                attackerHealth: document.getElementById("health_1"),
-                attack: attacks_available[1],
-                recipient: document.getElementById("Dragon"),
-                recipientHealth: document.getElementById("health_2")
-            });
+        attack({
+            attacker: document.getElementById("Ember"),
+            attackerHealth: document.getElementById("health_1"),
+            attack: attacks_available[1],
+            recipient: document.getElementById("Dragon"),
+            recipientHealth: document.getElementById("health_2")
+        });
     };
 
     document.getElementById("attack_3").onclick = () => {
@@ -57,7 +55,6 @@ function attacks() {
         });
     }
     document.getElementById("attack_4").onclick = () => {
-        document.getElementById("attack_4").style.pointerEvents = "none";
         document.getElementById("attack_4").style.backgroundColor = "#000";
         attack({
             attacker: document.getElementById("Ember"),
@@ -70,6 +67,7 @@ function attacks() {
 }
 
 function attack({attacker, attackerHealth, attack, recipient, recipientHealth, isdone = false}) {
+    document.getElementById("attack_options").style.pointerEvents = "none";
     let recipient_actual = recipient;
     switch (attack.name) {
         case "Tackle":
@@ -131,17 +129,17 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
     dialog_animation(dialog, attacker, recipient_actual, attack);
     setTimeout(() => {
         enemy_attack(recipient.id, recipientHealth.id, attacker.id, attackerHealth.id, isdone);
-        // isdone = true
     }, 3000);
-    setTimeout(() => {
-        document.getElementById("attack_options").style.pointerEvents = "all";
-        // isdone = true
-    }, 6000);
+    if (isdone){
+        setTimeout(() => {
+            document.getElementById("attack_options").style.pointerEvents = "all";
+        }, 3000);
+    }
 }
 
 function enemy_attack(attacker, attackerHealth, recipient, recipientHealth, done) {
     if(!done){
-        const randomIndex = Math.floor(Math.random() * attacks_available.length); 
+        const randomIndex = Math.floor(Math.random() * (attacks_available.length-1)); 
         const attack_chosen = attacks_available[randomIndex]; 
         // if (randomIndex === 3) {
         //     recipient = attacker;
@@ -291,7 +289,7 @@ function health_bar_animation(healthElement, damage, recipient) {
     healthElement.style.transition = "width 0.5s";
     healthElement.style.width = newWidth + "px";
 
-    if (newWidth == 0) {
+    if (newWidth === 0) {
         healthElement.style.opacity = "0";
         recipient.style.transition = "opacity 0.5s";
         recipient.style.opacity = "0";
@@ -303,13 +301,13 @@ function health_bar_animation(healthElement, damage, recipient) {
 }
 
 function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
-    document.getElementById("attack_options").style.pointerEvents = "none";
-    divId.style.opacity = 1;
-    divId.innerHTML = ""; // Clear the existing content
+    let input_text = ""
     let index = 0;
+    divId.style.opacity = 1;
+    divId.innerHTML = ""; 
     const lw = attack.damage<0 ? "gained" : "lost";
     if (attack.damage<0) attack.damage -= 2*attack.damage;
-    const input_text = `\n${attacker.id} used ${attack.name}!\n\n\n${recipient.id} ${lw} ${attack.damage} health!`;
+    input_text = `\n${attacker.id} used ${attack.name}!\n\n\n${recipient.id} ${lw} ${attack.damage} health!`;
     function type() {
         if (index < input_text.length) {
             divId.innerHTML += input_text.charAt(index) === "\n" ? "<br>" : input_text.charAt(index);
@@ -321,7 +319,6 @@ function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
             }, 100);
         }
     }
-
     type();
 }
 

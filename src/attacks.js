@@ -70,6 +70,7 @@ function attacks() {
         });
     };
 
+    //HOVER EFFECTS
     document.getElementById("attack_1").addEventListener('mouseenter', ()=>{
         info.innerHTML = `Enemy Loses 50hp`;
     })
@@ -82,7 +83,19 @@ function attacks() {
     document.getElementById("attack_4").addEventListener('mouseenter', ()=>{
         info.innerHTML = `5% Tackle<br><br>25% You lose 50% hp<br><br>20% You have 1hp<br><br>50% enemy has 1hp`;
     })
+    document.getElementById("health_bar_1").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `Ember Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_1").style.width)*100/668), 1)}%`;
+    })
+    document.getElementById("health_bar_2").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `Dragon Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_2").style.width)*100/668),1)}%`;
+    })
     document.getElementById("attack_options").addEventListener('mouseleave', ()=>{
+        info.innerHTML = `Attack Info`;
+    })
+    document.getElementById("health_bar_1").addEventListener('mouseleave', ()=>{
+        info.innerHTML = `Attack Info`;
+    })
+    document.getElementById("health_bar_2").addEventListener('mouseleave', ()=>{
         info.innerHTML = `Attack Info`;
     })
 }

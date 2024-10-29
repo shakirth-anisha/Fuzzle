@@ -1,6 +1,6 @@
 import {attacks} from './attacks'
 
-function FadeInOut(element, fun, times = 1) {
+function FadeInOut(element, fun, times = 3) {
     const cycleDelay = 20;        
     const fadeTime = 1000;        
     const displayTime = 500;      

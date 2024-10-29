@@ -1,4 +1,5 @@
 const dialog = document.getElementById("battle_dialog");
+let fireball_cooldown = 0;
 
 const attacks_available = [
     {
@@ -55,7 +56,8 @@ function attacks() {
         });
     }
     document.getElementById("attack_4").onclick = () => {
-        document.getElementById("attack_4").style.backgroundColor = "#000";
+        document.getElementById("attack_4").style.pointerEvents = "none";
+        document.getElementById("attack_4").style.backgroundColor = "#111";
         attack({
             attacker: document.getElementById("Ember"),
             attackerHealth: document.getElementById("health_1"),
@@ -93,27 +95,29 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
             console.log(current);
             const rn_health = parseInt(attackerHealth.style.width) || maxHealthWidth;
             const rn_health_opp = parseInt(recipientHealth.style.width) || maxHealthWidth;
-            if (current <= 5){
+            // if (current <= 5){
+            if (current <= 0){
                 hit_animation(recipient, recipientHealth, 0)
                 tackle_animation(attacker, recipient, attack, recipientHealth);
                 console.log("Tackle thingy");
             }
-            else if(current > 5 && current <= 25){
-                attack.damage = rn_health/2;
-                hit_animation(attacker, attackerHealth, 0)
-                health_bar_animation(attackerHealth, attack.damage, attacker)
-                recipient_actual = attacker;
-                console.log("50% damage on attacker");
-            }
-            else if(current > 25 && current <= 45){
+            // else if(current > 5 && current <= 25){
+            //     attack.damage = rn_health/2;
+            //     hit_animation(attacker, attackerHealth, 0)
+            //     health_bar_animation(attackerHealth, attack.damage, attacker)
+            //     recipient_actual = attacker;
+            //     console.log("50% damage on attacker");
+            // }
+            // else if(current > 25 && current <= 45){
+            else if(current > 0 && current <= 0){
                 attack.damage = rn_health - 1;
                 hit_animation(attacker, attackerHealth, 0)
                 health_bar_animation(attackerHealth, attack.damage, attacker)
                 recipient_actual = attacker;
                 console.log("1hp");
             }
-            else if(current > 45 && current <= 100){
-                attack.damage = rn_health_opp/2;
+            else if(current > 0 && current <= 100){
+                attack.damage = rn_health_opp -1;
                 health_bar_animation(recipientHealth, attack.damage, recipient)
                 hit_animation(recipient, recipientHealth, 0)
                 console.log("50% damage on enemy");
@@ -127,19 +131,23 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
             */
     }
     dialog_animation(dialog, attacker, recipient_actual, attack);
+    console.log(recipientHealth.style.width);
     setTimeout(() => {
-        enemy_attack(recipient.id, recipientHealth.id, attacker.id, attackerHealth.id, isdone);
+        if (parseFloat(recipientHealth.style.width) > 0){
+            enemy_attack(recipient.id, recipientHealth.id, attacker.id, attackerHealth.id, isdone);
+        }
     }, 3000);
-    if (isdone){
-        setTimeout(() => {
+    setTimeout(() => {
+        console.log(parseFloat(attackerHealth.style.width))
+        if (parseFloat(attackerHealth.style.width) > 0 && parseFloat(recipientHealth.style.width) > 0 && isdone){
             document.getElementById("attack_options").style.pointerEvents = "all";
-        }, 3000);
-    }
+        }
+    }, 3500);
 }
 
 function enemy_attack(attacker, attackerHealth, recipient, recipientHealth, done) {
     if(!done){
-        const randomIndex = Math.floor(Math.random() * (attacks_available.length-1)); 
+        const randomIndex = Math.floor(Math.random() * (attacks_available.length-2)); 
         const attack_chosen = attacks_available[randomIndex]; 
         // if (randomIndex === 3) {
         //     recipient = attacker;
@@ -282,9 +290,11 @@ function healing_animation(healImg, recipient) {
 
 
 function health_bar_animation(healthElement, damage, recipient) {
-    const maxHealthWidth = 668;
-    const currentWidth = parseInt(healthElement.style.width) || maxHealthWidth;
-    let newWidth = (Math.max(Math.min(currentWidth - damage, maxHealthWidth), 0));
+    const currentWidth = parseInt(healthElement.style.width) || 668;
+    let newWidth = currentWidth - damage; 
+    if (newWidth <= 0) {
+        newWidth = 0;
+    }
     
     healthElement.style.transition = "width 0.5s";
     healthElement.style.width = newWidth + "px";

@@ -1,4 +1,6 @@
 const dialog = document.getElementById("battle_dialog");
+let win_lose = document.getElementById("winlose_screen");
+let win_lose_text = document.getElementById("winlose_screen_text");
 let fireball_cooldown = 0;
 
 const attacks_available = [
@@ -91,36 +93,35 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
             break;
             
         case "Gamble":
-            const current = Math.random()*100, maxHealthWidth = 668;
+            let current = Math.random()*100, maxHealthWidth = 668;
             console.log(current);
+            current = 50;
             const rn_health = parseInt(attackerHealth.style.width) || maxHealthWidth;
             const rn_health_opp = parseInt(recipientHealth.style.width) || maxHealthWidth;
-            // if (current <= 5){
-            if (current <= 0){
+            if (current <= 5){
                 hit_animation(recipient, recipientHealth, 0)
                 tackle_animation(attacker, recipient, attack, recipientHealth);
                 console.log("Tackle thingy");
             }
-            // else if(current > 5 && current <= 25){
-            //     attack.damage = rn_health/2;
-            //     hit_animation(attacker, attackerHealth, 0)
-            //     health_bar_animation(attackerHealth, attack.damage, attacker)
-            //     recipient_actual = attacker;
-            //     console.log("50% damage on attacker");
-            // }
-            // else if(current > 25 && current <= 45){
-            else if(current > 0 && current <= 0){
+            else if(current > 5 && current <= 25){
+                attack.damage = rn_health/2;
+                hit_animation(attacker, attackerHealth, 0)
+                health_bar_animation(attackerHealth, attack.damage, attacker)
+                recipient_actual = attacker;
+                console.log("50% damage on attacker");
+            }
+            else if(current > 25 && current <= 45){
                 attack.damage = rn_health - 1;
                 hit_animation(attacker, attackerHealth, 0)
                 health_bar_animation(attackerHealth, attack.damage, attacker)
                 recipient_actual = attacker;
                 console.log("1hp");
             }
-            else if(current > 0 && current <= 100){
-                attack.damage = rn_health_opp -1;
+            else if(current > 45 && current <= 100){
+                attack.damage = rn_health_opp - 1;
                 health_bar_animation(recipientHealth, attack.damage, recipient)
                 hit_animation(recipient, recipientHealth, 0)
-                console.log("50% damage on enemy");
+                console.log("1hp enemy");
             }
             break;
             /*
@@ -131,14 +132,12 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
             */
     }
     dialog_animation(dialog, attacker, recipient_actual, attack);
-    console.log(recipientHealth.style.width);
     setTimeout(() => {
         if (parseFloat(recipientHealth.style.width) > 0){
             enemy_attack(recipient.id, recipientHealth.id, attacker.id, attackerHealth.id, isdone);
         }
     }, 3000);
     setTimeout(() => {
-        console.log(parseFloat(attackerHealth.style.width))
         if (parseFloat(attackerHealth.style.width) > 0 && parseFloat(recipientHealth.style.width) > 0 && isdone){
             document.getElementById("attack_options").style.pointerEvents = "all";
         }
@@ -147,12 +146,8 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
 
 function enemy_attack(attacker, attackerHealth, recipient, recipientHealth, done) {
     if(!done){
-        const randomIndex = Math.floor(Math.random() * (attacks_available.length-2)); 
+        const randomIndex = Math.floor(Math.random() * (attacks_available.length-1)); 
         const attack_chosen = attacks_available[randomIndex]; 
-        // if (randomIndex === 3) {
-        //     recipient = attacker;
-        //     recipientHealth = attackerHealth;
-        // }
         attack({
             attacker: document.getElementById(attacker),
             attackerHealth: document.getElementById(attackerHealth),
@@ -295,7 +290,9 @@ function health_bar_animation(healthElement, damage, recipient) {
     if (newWidth <= 0) {
         newWidth = 0;
     }
-    
+    else if (newWidth >= 668) {
+        newWidth = 668;
+    }
     healthElement.style.transition = "width 0.5s";
     healthElement.style.width = newWidth + "px";
 
@@ -303,6 +300,42 @@ function health_bar_animation(healthElement, damage, recipient) {
         healthElement.style.opacity = "0";
         recipient.style.transition = "opacity 0.5s";
         recipient.style.opacity = "0";
+        setTimeout(()=> {
+            if (recipient.id !== "Ember"){
+                win_lose_text.innerHTML = "You Win";
+                win_lose.style.transition = "opacity 500ms";
+                win_lose.style.opacity = "0.9";
+                setTimeout(()=> {
+                    document.getElementById("battle_img_html").style.opacity = 0;
+                    win_lose.style.opacity = "0";
+                    document.getElementById("health_1").style.width = "668px";
+                    document.getElementById("health_2").style.width = "668px";
+                    document.getElementById("health_2").style.backgroundColor = "#64ff8b";
+                    document.getElementById("health_2").style.opacity = 1;
+                    document.getElementById("Dragon").style.opacity = 1;
+                    document.getElementById("attack_4").style.pointerEvents = "all";
+                    document.getElementById("attack_4").style.backgroundColor = "#fff"
+                    return;
+                }, 2000);
+            }
+            else {
+                win_lose_text.innerHTML = "You Lose";
+                win_lose.style.transition = "opacity 500ms";
+                win_lose.style.opacity = "0.9";   
+                setTimeout(()=> {
+                    document.getElementById("battle_img_html").style.opacity = 0;
+                    win_lose.style.opacity = "0";
+                    document.getElementById("health_1").style.width = "668px";
+                    document.getElementById("health_2").style.width = "668px";
+                    document.getElementById("health_1").style.backgroundColor = "#64ff8b";
+                    document.getElementById("health_1").style.opacity = 1;
+                    document.getElementById("Ember").style.opacity = 1;
+                    document.getElementById("attack_4").style.pointerEvents = "all";
+                    document.getElementById("attack_4").style.backgroundColor = "#fff"
+                    return;
+                }, 2000);            
+            }
+        }, 2000);
     } else if (newWidth <= 150) {
         healthElement.style.backgroundColor = "red";
     } else if (newWidth >= 150) {
@@ -315,9 +348,12 @@ function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
     let index = 0;
     divId.style.opacity = 1;
     divId.innerHTML = ""; 
+    
     const lw = attack.damage<0 ? "gained" : "lost";
     if (attack.damage<0) attack.damage -= 2*attack.damage;
+
     input_text = `\n${attacker.id} used ${attack.name}!\n\n\n${recipient.id} ${lw} ${attack.damage} health!`;
+
     function type() {
         if (index < input_text.length) {
             divId.innerHTML += input_text.charAt(index) === "\n" ? "<br>" : input_text.charAt(index);
@@ -331,8 +367,5 @@ function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
     }
     type();
 }
-
-
-
 
 export { attacks };

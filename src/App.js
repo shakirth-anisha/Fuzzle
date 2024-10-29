@@ -13,9 +13,9 @@ import { Sprite, Boundary } from './classes'
 import { FadeInOut, startAnimation} from './BattleStart';
 
 function App() {
-	FadeInOut('battle_ani', () => {
-		console.log("lmao no");
-	})
+	// FadeInOut('battle_ani', () => {
+	// 	console.log("lmao no");
+	// })
 useEffect(() => {
     const canvas = document.querySelector('canvas');
     const basic_img = new Image();
@@ -207,10 +207,11 @@ useEffect(() => {
 				
 					// Pass a callback to FadeInOut
 					battlethingy = 1;
+					player.moving = true;
 					FadeInOut('battle_ani', () => {
 						// This will run after fade animation completes
 						console.log("lmao no");
-						player_animate();						
+						player_animate();
 						// Start new animation loop with battle sprites
 					})
 				}

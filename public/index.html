@@ -30,6 +30,9 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="battle_img_html" style="opacity: 0;" class="battle_img_html">
+            <div id="winlose_screen" class="winlose_screen">
+                <div id="winlose_screen_text" style="background-color: rgba(255, 255, 255, 0.9); padding:80px; border-radius:20px; color:black"></div>
+            </div>
             <div id="battle_dialog"  class="battle_dialog"></div>
             <div id="health_bar_1" class="health_bar_bg" style="top: 540px; left: 960px;">
                 <h3>Ember</h3>
@@ -51,7 +54,7 @@
                     <button id="attack_1" class="attack_op">Tackle</button>
                     <button id="attack_2" class="attack_op">Fireball</button>
                     <button id="attack_3" class="attack_op">Heal</button>
-                    <button id="attack_4" class="attack_op">Trick</button>
+                    <button id="attack_4" class="attack_op">Gamble</button>
                 </div>
             </div>
             <img id="Ember" class="onbattle" style="opacity: 1; top:360px; left:400px" src="./Ember/ember1.png"> 
@@ -75,10 +78,13 @@
         
             setInterval(() => {
                 index = (index + 1) % dragon.length;
-              document.getElementById("Dragon").src = dragon[index];
-              document.getElementById("Ember").src = ember[index];
-              //document.getElementById("fire").src = fire[index];
+                document.getElementById("Dragon").src = dragon[index];
+                document.getElementById("Ember").src = ember[index];
             }, 100);
+
+            //document.getElementById("attack_1").
+            //document.getElementById("attack_1").innerHTML = "The Opponent will lose 50 health and has a low chance to be stunned";
+
           </script>
     </body>
 </html>

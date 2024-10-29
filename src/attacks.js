@@ -1,4 +1,5 @@
 const dialog = document.getElementById("battle_dialog");
+const info = document.getElementById("attack_info_text");
 let win_lose = document.getElementById("winlose_screen");
 let win_lose_text = document.getElementById("winlose_screen_text");
 let fireball_cooldown = 0;
@@ -68,6 +69,22 @@ function attacks() {
             recipientHealth: document.getElementById("health_2")
         });
     };
+
+    document.getElementById("attack_1").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `Enemy Loses 50hp`;
+    })
+    document.getElementById("attack_2").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `Enemy loses 100hp<br><br>Cooldown: 1 move`;
+    })
+    document.getElementById("attack_3").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `You gain 75hp`;
+    })
+    document.getElementById("attack_4").addEventListener('mouseenter', ()=>{
+        info.innerHTML = `5% Tackle<br><br>25% You lose 50% hp<br><br>20% You have 1hp<br><br>50% enemy has 1hp`;
+    })
+    document.getElementById("attack_options").addEventListener('mouseleave', ()=>{
+        info.innerHTML = `Attack Info`;
+    })
 }
 
 function attack({attacker, attackerHealth, attack, recipient, recipientHealth, isdone = false}) {

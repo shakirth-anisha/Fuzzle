@@ -10,7 +10,7 @@ import './App.css';
 import collisions from './data/collisions'
 import battleMap from './data/battle'
 import { Sprite, Boundary } from './classes'
-import { FadeInOut, startAnimation} from './BattleStart';
+import { FadeInOut} from './BattleStart';
 
 function App() {
 	// FadeInOut('battle_ani', () => {
@@ -32,7 +32,7 @@ useEffect(() => {
 	playerRight_img.src = playerRight;
 	playerLeft_img.src = playerLeft;
 
-	const velocity = 5;
+	const velocity = 15;
 	const battle_rate = 0.05;
 
 	const c = canvas.getContext('2d');
@@ -202,16 +202,17 @@ useEffect(() => {
 					&& Math.random() < battle_rate
 				){
 					battle_activate.initiated = true;
-					window.cancelAnimationFrame(animationId);
+					// window.cancelAnimationFrame(animationId);
 					player.moving = false;
 				
 					// Pass a callback to FadeInOut
 					battlethingy = 1;
-					player.moving = true;
+					// player.moving = true;
 					FadeInOut('battle_ani', () => {
 						// This will run after fade animation completes
 						console.log("lmao no");
 						player_animate();
+						battle_activate.initiated = false;
 						// Start new animation loop with battle sprites
 					})
 				}
@@ -405,32 +406,8 @@ useEffect(() => {
     // basic_img.onload = player_animate(); //COMMENT when bg loads----> draw everything
 
 
-	function runBattleAnimation(battlebg) {
-        // Battle animation loop, continues running until explicitly stopped
-        if (continueBattleAnimation) {
-            battleAnimationId = window.requestAnimationFrame(() => runBattleAnimation(battlebg));
-            startAnimation(battlebg); // Call your AnimateBattle function here
-        }
-    }
-
-    // Function to stop the battle animation manually
-    function stopBattleAnimation() {
-        continueBattleAnimation = false; // Stop the loop
-        window.cancelAnimationFrame(battleAnimationId); // Cancel any ongoing battle animation frame
-        console.log("Battle animation stopped.");
-    }
-
-    // Call this function when the player animation should start
-    function startPlayerAnimation() {
-        animationId = window.requestAnimationFrame(player_animate);
-    }
-
-    // Initial player animation start
-    startPlayerAnimation();
-
 	return () => {
         window.cancelAnimationFrame(animationId); // Stop player animation
-        stopBattleAnimation(); // Ensure battle animation is stopped
     };
   }, []);
 

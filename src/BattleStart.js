@@ -1,5 +1,4 @@
 import {attacks} from './attacks'
-let continueAnimation = true; 
 
 function FadeInOut(element, fun, times = 1) {
     const cycleDelay = 20;        
@@ -36,6 +35,12 @@ function FadeInOut(element, fun, times = 1) {
                     document.getElementById("battle_img_html").style.opacity = 1;
                     document.getElementById("attack_options").style.pointerEvents = "all";
                     attacks();
+                    // let go_back = setInterval(()=>{
+                    //     if(document.getElementById("battle_img_html").opacity == 0){
+                    //         fun();
+                    //         clearInterval(go_back);
+                    //     }
+                    // }, 1000, 100000)
                 }
                 el.style.opacity = 0; //fading out
 
@@ -46,39 +51,9 @@ function FadeInOut(element, fun, times = 1) {
             }, displayTime); //before fading out
         }, cycleDelay); //before starting to fade in
         console.log("fades away");
-        fun();
     }
 
     fadeCycle(times); // Start the fade cycle
     return totalDuration;
 }
-
-
-function AnimateBattle(battlebg) {
-    if (continueAnimation) {
-        window.requestAnimationFrame(() => AnimateBattle(battlebg));
-        // console.log("its working");
-        document.getElementById("battle_ani").style.opacity = 1;
-        document.getElementById("battle_img_html").src = battlebg;
-    }
-}
-
-// Call this function when you want to stop the animation
-function stopAnimation() {
-    document.getElementById("battle_img_html").style.opacity = 0;
-    continueAnimation = false;
-}
-
-// Call this function to start the animation
-function startAnimation(battlebg) {
-    document.getElementById("battle_img_html").style.opacity = 1;
-    continueAnimation = true;
-    AnimateBattle(battlebg);
-}
-
-function Continue_Battle(dragon, ember){
-    dragon.draw();
-    ember.draw();
-}
-
-export { FadeInOut, AnimateBattle, startAnimation, stopAnimation, Continue_Battle };
+export {FadeInOut};

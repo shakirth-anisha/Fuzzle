@@ -8,7 +8,7 @@
             name="description"
             content="Web site created using create-react-app"
         />
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -46,13 +46,31 @@
                 </div>
             </div>
             <img id="Ember" class="onbattle" style="opacity: 1; top:360px; left:400px" src="./Ember/ember1.png"> 
-            <img id="Dragon" class="onbattle" style="opacity: 1; top:170px; left:1340px; width: 155px; height:155px" src="./enemy_dino1.png"> 
+            <img id="Dragon" class="onbattle" style="opacity: 1; top:170px; left:1340px; width: 150px; height:150px" src="./enemy_dino1.png"> 
             <img id="fireball" class="onbattle" style="opacity: 0;" src="./Fire/fire1.png"> 
             <img id="heal_img" class="onbattle" style="opacity: 0;" src="./Fire/heal.png" style="top:360px; left:400px"> 
             <img id="battle" class="battle_img_html" style="opacity: 1;" src="./battleBackground.png"> 
         </div>
         <div id="battle_ani" class="battle_ani"> </div>
         <div id="root" class="canvas"></div>
+
+        <script>    
+            let enemies = ["Dragon", "Axolotl", "Reptile", "Dino", "Racoon"];
+            let randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
+            let enemy = [], ember = [];
+            for (i=1; i<=4; i++){
+                enemy.push(`Enemy/${randomEnemy}/enemy_${randomEnemy}${i}.png`)
+                ember.push("Ember/player_ember"+i+".png")
+            }
+            document.getElementById("enemy_name_health_bar").innerHTML = randomEnemy;
+            let index = 0
+        
+            setInterval(() => {
+                index = (index + 1) % enemy.length;
+                document.getElementById("Dragon").src = enemy[index];
+                document.getElementById("Ember").src = ember[index];
+            }, 100);
+          </script>
     </body>
 </html>
         <!--

@@ -32,9 +32,6 @@ useEffect(() => {
 	playerRight_img.src = playerRight;
 	playerLeft_img.src = playerLeft;
 
-	const velocity = 15;
-	const battle_rate = 0.5;
-
 	const c = canvas.getContext('2d');
 	if (c) {
 		c.clearRect(0, 0, canvas.width, canvas.height);
@@ -144,11 +141,11 @@ useEffect(() => {
 		initiated: false
 	}
 	let animationId; // Player animation frame ID
-    let battleAnimationId; // Battle animation frame ID
-    let continueBattleAnimation = false;
-	let battlethingy = 0;
 
 	function player_animate() {
+		const velocity = 5;
+		const battle_rate = 0.5;
+
 		animationId = window.requestAnimationFrame(player_animate)
 		renderables.forEach((renderable) => {
 			renderable.draw();
@@ -202,12 +199,8 @@ useEffect(() => {
 					&& Math.random() < battle_rate
 				){
 					battle_activate.initiated = true;
-					// window.cancelAnimationFrame(animationId);
 					player.moving = false;
-				
-					// Pass a callback to FadeInOut
-					battlethingy = 1;
-					// player.moving = true;
+
 					FadeInOut('battle_ani', () => {
 						// This will run after fade animation completes
 						console.log("lmao no");

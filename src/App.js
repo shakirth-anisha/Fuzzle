@@ -143,8 +143,8 @@ useEffect(() => {
 	let animationId; // Player animation frame ID
 
 	function player_animate() {
-		const velocity = 5;
-		const battle_rate = 0.5;
+		const velocity = 15;
+		const battle_rate = 0.05;
 
 		animationId = window.requestAnimationFrame(player_animate)
 		renderables.forEach((renderable) => {
@@ -199,13 +199,14 @@ useEffect(() => {
 					&& Math.random() < battle_rate
 				){
 					battle_activate.initiated = true;
+					window.cancelAnimationFrame(animationId);
 					player.moving = false;
 
 					FadeInOut('battle_ani', () => {
 						// This will run after fade animation completes
 						console.log("lmao no");
 						battle_activate.initiated = false;
-						player_animate();
+						animationId = window.requestAnimationFrame(player_animate);
 						// Start new animation loop with battle sprites
 					})
 				}
@@ -395,9 +396,6 @@ useEffect(() => {
 				break;
 		}
 	})
-
-    // basic_img.onload = player_animate(); //COMMENT when bg loads----> draw everything
-
 
 	return () => {
         window.cancelAnimationFrame(animationId); // Stop player animation

@@ -27,6 +27,21 @@ function FadeInOut(element, fun, times = 3) {
         
         // Fade in
         setTimeout(() => {
+            let enemies = ["Dragon", "Axolotl", "Reptile", "Dino", "Racoon"];
+            let randomEnemy = enemies[Math.floor(Math.random() * enemies.length)];
+            let enemy = [], ember = [];
+            for (let i=1; i<=4; i++){
+                enemy.push(`Enemy/${randomEnemy}/enemy_${randomEnemy}${i}.png`)
+                ember.push("Ember/player_Ember"+i+".png")
+            }
+            document.getElementById("enemy_name_health_bar").innerHTML = randomEnemy;
+            let index = 0
+        
+            setInterval(() => {
+                index = (index + 1) % enemy.length;
+                document.getElementById("Dragon").src = enemy[index];
+                document.getElementById("Ember").src = ember[index];
+            }, 100);
             el.style.transition = `opacity ${fadeTime}ms`;
             el.style.opacity = 1; //fading in
 

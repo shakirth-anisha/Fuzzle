@@ -2,6 +2,7 @@ const dialog = document.getElementById("battle_dialog");
 const info = document.getElementById("attack_info_text");
 let win_lose = document.getElementById("winlose_screen");
 let win_lose_text = document.getElementById("winlose_screen_text");
+
 let fireball_cooldown = 0;
 
 const attacks_available = [
@@ -84,10 +85,10 @@ function attacks() {
         info.innerHTML = `5% Tackle<br><br>25% You lose 50% hp<br><br>20% You have 1hp<br><br>50% enemy has 1hp`;
     })
     document.getElementById("health_bar_1").addEventListener('mouseenter', ()=>{
-        info.innerHTML = `Ember Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_1").style.width)*100/668), 1)}%`;
+        info.innerHTML = `${get_name_of_thingy("Ember")} Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_1").style.width)*100/668), 1)}%`;
     })
     document.getElementById("health_bar_2").addEventListener('mouseenter', ()=>{
-        info.innerHTML = `Dragon Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_2").style.width)*100/668),1)}%`;
+        info.innerHTML = `${get_name_of_thingy("Dragon")} Health:<br><br>${Math.max(Math.floor(parseInt(document.getElementById("health_2").style.width)*100/668),1)}%`;
     })
     document.getElementById("attack_options").addEventListener('mouseleave', ()=>{
         info.innerHTML = `Attack Info`;
@@ -125,7 +126,6 @@ function attack({attacker, attackerHealth, attack, recipient, recipientHealth, i
         case "Gamble":
             let current = Math.random()*100, maxHealthWidth = 668;
             console.log(current);
-            current = 50;
             const rn_health = parseInt(attackerHealth.style.width) || maxHealthWidth;
             const rn_health_opp = parseInt(recipientHealth.style.width) || maxHealthWidth;
             if (current <= 5){
@@ -382,7 +382,7 @@ function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
     const lw = attack.damage<0 ? "gained" : "lost";
     if (attack.damage<0) attack.damage -= 2*attack.damage;
 
-    input_text = `\n${attacker.id} used ${attack.name}!\n\n\n${recipient.id} ${lw} ${attack.damage} health!`;
+    input_text = `\n${get_name_of_thingy(attacker.id)} used ${attack.name}!\n\n\n${get_name_of_thingy(recipient.id)} ${lw} ${attack.damage} health!`;
 
     function type() {
         if (index < input_text.length) {
@@ -396,6 +396,13 @@ function dialog_animation(divId, attacker, recipient, attack, speed = 50) {
         }
     }
     type();
+}
+
+function get_name_of_thingy(id){
+    let src = document.getElementById(id).src;
+    const name = src.substring(src.lastIndexOf('_') + 1, src.lastIndexOf('.')-1);
+    console.log(name);
+    return name;
 }
 
 export { attacks };
